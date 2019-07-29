@@ -5,6 +5,8 @@ class Elevator {
     this.requests   = [];
     this.direction ="up"
     this.timer =""
+    this.waitingList = []
+    this.passengers = []
   }
 
   start() {
@@ -35,7 +37,10 @@ class Elevator {
     }
     
    }
-  call() { }
+  call(person) { 
+    this.requests.push(person.originFloor)
+    this.waitingList.push(person)
+  }
   log() {
     console.log("Direction: " + this.direction + " | Floor: " + this.floor);    
    }
