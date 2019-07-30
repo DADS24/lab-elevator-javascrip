@@ -7,6 +7,7 @@ class Elevator {
     this.timer =""
     this.waitingList = []
     this.passengers = []
+    
   }
 
   start() {
@@ -16,15 +17,43 @@ class Elevator {
     clearInterval(this.timer)
    }
   update() { 
+    if(this.requests.length > 0){
+      if(this.requests[0] > this.floor){
+        this.direction ="up"
+        this.floorUp()
+      }else if(this.requests[0]< this.floor) {
+        this.direction = "down"
+        this.floorDown()
+      }
+      this._passengersEnter()
+      
+    }
     this.log()
   }
-  _passengersEnter() { }
-  _passengersLeave() { }
+  _passengersEnter() { 
+    this.waitingList.forEach(p =>{
+      if(p.originFloor == this.floor){
+        this.requests.push(p.destinationFloor)
+        this.passengers.push(p)
+        console.log(p.name + " Goes in");
+      }
+      
+    })
+  }
+  _passengersLeave() { 
+    this.passengers.forEach(p =>{
+      if(p.destinationFloor == this.floor){
+        console.log(p.name + " Goes out");
+        
+      }
+    })
+  }
   floorUp() { 
     if(this.floor == this.MAXFLOOR){
       console.log("Imposiburu!")      
     }else{
       this.floor += 1
+      
     }
     
   }
@@ -34,12 +63,14 @@ class Elevator {
       
     }else{
       this.floor -= 1
+      
     }
     
    }
   call(person) { 
     this.requests.push(person.originFloor)
     this.waitingList.push(person)
+    
   }
   log() {
     console.log("Direction: " + this.direction + " | Floor: " + this.floor);    
