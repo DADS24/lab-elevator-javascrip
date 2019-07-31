@@ -26,18 +26,22 @@ class Elevator {
         this.floorDown()
       }
       this._passengersEnter()
-      
+      this._passengersLeave()
     }
     this.log()
   }
   _passengersEnter() { 
+    console.log(this.waitingList)
     this.waitingList.forEach(p =>{
       if(p.originFloor == this.floor){
+        this.requests = this.requests.filter(element => element!=this.floor)
         this.requests.push(p.destinationFloor)
         this.passengers.push(p)
-        console.log(p.name + " Goes in");
+        console.log(p.name + " Goes in")
+        this.waitingList.shift()
       }
-      
+    console.log("requests")
+    console.log(this.requests)
     })
   }
   _passengersLeave() { 
